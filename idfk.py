@@ -1,57 +1,198 @@
 from tkinter import*
 from tkinter import font
+from PIL import Image, ImageTk
+
+
 
 root = Tk()
-root.geometry("403x400+700+150")
+root.title("this is my freaking calculator")
+root.iconbitmap(default='images//calcicon.ico')
+root.geometry("390x430+700+150")
+root.config(bg='#444444')
 
-text1 = Entry(root, width=50)
-text2 = Entry(root, width=50)
-text1.grid(row=1, column=0, padx=20,pady=5, ipady=15, columnspan=3)
-text2.grid(row=0, column=0, padx= 20, pady=5, columnspan=3)
+global result
+result = 0
+global sign
+sign = '+'
+
+input = Entry(root, width=58, bg='#44444f', fg='#ffffff', borderwidth=3)
+history = Entry(root, width=58, bg='#44444a', fg='#ffffff')
+input.place(x=18, y=35)
+history.grid(row=0, column=0, padx= 20, pady=5, columnspan=3)
+
+img = Image.open("images/deleteicon.jpg")
+img = img.resize((57,57), Image.ANTIALIAS)
+Img = ImageTk.PhotoImage(img)
 
 def number(num):
-    text1.insert(END, num)
+    input.insert(END, num)
 
-ClearFont = font.Font(size=20, weight='bold')
+def addNum():
+    global sign
+    global result
+    num = input.get()
+    if  sign == '+':
+        result = result + float(num)
+    elif sign == '-':
+        result = result - float(num)
+    elif sign == 'x':
+        result = result * float(num)
+    elif result == '÷':
+        result = result / float(num)
+    sign = '+'
+    history.insert(END, str(num) + str(sign))
+    input.delete(0, END)
+
+
+def subNum(): 
+    global sign
+    global result
+    num = input.get()
+    if  sign == '+':
+        result = result + float(num)
+    elif sign == '-':
+        result = result - float(num)
+    elif sign == 'x':
+        result = result * float(num)
+    elif result == '÷':
+        result = result / float(num)
+    sign = '-'
+    history.insert(END, str(num) + str(sign))
+    input.delete(0, END)
+
+
+def equalNum():
+    global result, sign 
+    num = input.get()
+    input.delete(0, END)
+    if  sign == '+':
+        result = result + float(num)
+    elif sign == '-':
+        result = result - float(num) 
+    elif sign == 'x':
+        result = result * float(num)
+    elif sign == '÷':
+        result = result / float(num)
+    sign = '+'
+    history.insert(END, str(num) + '=' + str(result))
+    input.insert(0, result)
+    result = 0
+
+def clearBut():
+    global result, sign
+    input.delete(0, END)
+    history.delete(0, END)
+    result = 0 
+    sign = '+'
+
+def deleteNum():
+    txt = input.get()[:-1]
+    input.delete(0 , END)
+    input.insert(0, txt)
+
+def multiNum():
+    global sign
+    global result
+    num = input.get()
+    if  sign == '+':
+        result = result + float(num)
+    elif sign == '-':
+        result = result - float(num)
+    elif sign == 'x':
+        result = result * float(num)
+    elif sign == '÷':
+        result = result / float(num)
+    sign = 'x'
+    history.insert(END, str(num) + str(sign))
+    input.delete(0, END)
+
+def devNum():
+    global sign
+    global result
+    num = input.get()
+    if  sign == '+':
+        result = result + float(num)
+    elif sign == '-':
+        result = result - float(num)
+    elif sign == 'x':
+        result = result * float(num)
+    elif sign == '÷':
+        result = result / float(num)
+    sign = '÷'
+    history.insert(END, str(num) + str(sign))
+    input.delete(0, END)
+    
+
+
+
+ClearFont = font.Font(size=18, weight='bold')
 NumberFont = font.Font(size=20, weight='bold')
+subFont = font.Font(size=24, weight='bold')
 
-num1 = Button(root, text='1', command=lambda: number(1))
-num1.grid(row=4, column=0, pady=5)
+num1 = Button(root, text='1', bg='#444443', fg='#ffffff', padx=20, pady=5, command=lambda: number(1))
+num2 = Button(root, text='2', bg='#444443', fg='#ffffff', padx=20, pady=5, command=lambda: number(2))
+num3 = Button(root, text='3', bg='#444443', fg='#ffffff', padx=20, pady=5, command=lambda: number(3))
+num4 = Button(root, text='4', bg='#444443', fg='#ffffff', padx=20, pady=5, command=lambda: number(4))
+num5 = Button(root, text='5', bg='#444443', fg='#ffffff', padx=20, pady=5, command=lambda: number(5))
+num6 = Button(root, text='6', bg='#444443', fg='#ffffff', padx=20, pady=5, command=lambda: number(6))
+num7 = Button(root, text='7', bg='#444443', fg='#ffffff', padx=20, pady=5, command=lambda: number(7))
+num8 = Button(root, text='8', bg='#444443', fg='#ffffff', padx=20, pady=5, command=lambda: number(8))
+num9 = Button(root, text='9', bg='#444443', fg='#ffffff', padx=20, pady=5, command=lambda: number(9))
+num0 = Button(root, text='0', bg='#444443', fg='#ffffff', padx=20, pady=5, command=lambda: number(0))
+dotBut = Button(root, text='.', bg='#444443', fg='#ffffff', padx=23, pady=5, command=lambda: number("."))
+Clear = Button(root, text="clear", bg='#444443', fg='#ffffff', pady=7, padx=2, command=clearBut)
+addBut = Button(root, text='+', bg='#444443', fg='#ffffff', padx=20, pady=39, command=addNum)
+subBut = Button(root, text='-', bg='#444443', fg='#ffffff', padx=21, pady=0, command=subNum)
+equalBut = Button(root, text='=', bg='#444443', fg='#ffffff', padx=20, pady=5, command=equalNum)
+deleteBut = Button(root, image=Img, bg='#444443', fg='#ffffff', width=74, pady=5, command=deleteNum)
+multiBut = Button(root, text='x', bg='#444443', fg='#ffffff', padx=20, pady=5, command=multiNum)
+devBut = Button(root, text='÷', bg='#444443', fg='#ffffff', padx=20, pady=5, command=devNum)
+
+
+
+num7.place(x=20, y=140)
+num8.place(x=110, y=140)
+num9.place(x=200, y=140)
+
+num4.place(x=20, y=210)
+num5.place(x=110, y=210)
+num6.place(x=200, y=210)
+
+num1.place(x=20, y=280)
+num2.place(x=110, y=280)
+num3.place(x=200, y=280)
+
+dotBut.place(x=20, y=350)
+num0.place(x=110, y=350)
+equalBut.place(x=200, y=350)
+
+Clear.place(x=290, y=140)
+subBut.place(x=290, y=210)
+addBut.place(x=290, y=280)
+
+deleteBut.place(x=290, y=70)
+multiBut.place(x=200, y=70)
+devBut.place(x=110, y=70)
+
+
+
 num1['font'] = NumberFont
-
-num2 = Button(root, width=10, height=3, command=lambda: number(2))
-num2.grid(row=4, column=1, pady=5)
-
-num3 = Button(root, text='3', command=lambda: number(3))
-num3.grid(row=4, column=2, pady=5)
+num2['font'] = NumberFont
 num3['font'] = NumberFont
-
-num4 = Button(root, width=10, height=3, command=lambda: number(4))
-num4.grid(row=3, column=0, pady=5)
-
-num5 = Button(root, width=10, height=3, command=lambda: number(5))
-num5.grid(row=3, column=1, pady=5)
-
-num6 = Button(root, width=10, height=3, command=lambda: number(6))
-num6.grid(row=3, column=2, pady=5)
-
-num7 = Button(root, width=10, height=3, command=lambda: number(7))
-num7.grid(row=2, column=0, pady=5)
-
-num8 = Button(root, width=10, height=3, command=lambda: number(8))
-num8.grid(row=2, column=1, pady=5)
-
-num9 = Button(root, width=10, height=3, command=lambda: number(9))
-num9.grid(row=2, column=2, pady=5)
-
-num0 = Button(root, width=10, height=3, command=lambda: number(0))
-num0.grid(row=5, column=1, pady=5)
-
-num0 = Button(root, width=10, height=3, command=lambda: number("."))
-num0.grid(row=5, column=0, pady=5)
-
-Clear = Button(root, text="clear", pady=1, command=lambda: text1.delete(0, END))
-Clear.grid(row=5, column=2, pady=5)
+num4['font'] = NumberFont
+num5['font'] = NumberFont
+num6['font'] = NumberFont
+num7['font'] = NumberFont
+num8['font'] = NumberFont
+num9['font'] = NumberFont
+num0['font'] = NumberFont
+dotBut['font'] = NumberFont
 Clear['font'] = ClearFont
+addBut['font'] = NumberFont
+subBut['font'] = subFont
+equalBut['font'] = NumberFont
+multiBut['font'] = NumberFont
+devBut['font'] = NumberFont
+
 
 root.mainloop()
