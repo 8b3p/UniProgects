@@ -8,6 +8,9 @@ second = Entry(root, width=60)
 first.grid(row=1, column=0, padx=20,pady=5, ipady=15, columnspan=3)
 second.grid(row=0, column=0, padx= 20, pady=5, columnspan=3)
 
-
+def number():
+    num = first.get()
+    first.insert(END, num)
+    
 
 root.mainloop()
