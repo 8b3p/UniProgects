@@ -3,7 +3,7 @@ from tkinter import font
 from PIL import Image, ImageTk
 
 root = Tk()
-root.title("this is my freaking calculator")
+root.title("this is my calculator")
 root.iconbitmap(default='images//calcicon.ico')
 root.geometry("390x430+700+150")
 root.config(bg='#444444')
